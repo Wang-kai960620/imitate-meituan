@@ -56,11 +56,11 @@ const Carousel: React.FC = () => {
   useEffect(() => {
     if (content.current) {
       content.current.addEventListener("touchmove", (e) => {
-        console.log(e.targetTouches);
+        console.log(e.targetTouches[0]);
       });
     }
     $(".wrapper")!.addEventListener("click", (e) => {
-
+      if (e.target === e.currentTarget) {return; }
       let index = Array.from($$(".wrapper li")).indexOf(e.target as Element);
       listStyle(index);
       if (photo.current) {
@@ -79,7 +79,7 @@ const Carousel: React.FC = () => {
     <>
       <Container ref={content}>
         <img src='assets/1.jpg' alt="" ref={photo}/>
-        <ol  className='wrapper'>
+        <ol className='wrapper'>
           <li id='1' className='active'/>
           <li id='2'/>
           <li id='3'/>
