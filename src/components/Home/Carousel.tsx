@@ -41,6 +41,7 @@ const Container = styled.div`
 `;
 
 
+
 const Carousel: React.FC = () => {
   const content = useRef<HTMLDivElement>(null);
   const photo = useRef<HTMLImageElement>(null);
@@ -73,7 +74,7 @@ const Carousel: React.FC = () => {
     //   listStyle(n);
     //   photo.current!.src = urlMap.get(String(n)) as string;
     // }, 3000);
-  }, []);
+  }, [urlMap]);
 
   return (
     <>
