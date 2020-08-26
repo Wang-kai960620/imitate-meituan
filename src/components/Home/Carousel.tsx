@@ -29,7 +29,7 @@ const Container = styled.div`
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background: black;
+        background: #ccc;
         margin: 10px 10px ;
         cursor: pointer;
         &.active{
@@ -42,7 +42,7 @@ const Container = styled.div`
 
 
 const Carousel: React.FC = () => {
-  const content = useRef<HTMLOListElement>(null);
+  const content = useRef<HTMLDivElement>(null);
   const photo = useRef<HTMLImageElement>(null);
   const $ = (s: string) => document.querySelector(s);
   const $$ = (s: string) => document.querySelectorAll(s);
@@ -52,28 +52,34 @@ const Carousel: React.FC = () => {
     $$(".wrapper li").forEach(item => item.classList.remove("active"));
     $$(".wrapper li")[n].classList.add("active");
   };
+
   useEffect(() => {
+    if (content.current) {
+      content.current.addEventListener("touchmove", (e) => {
+        console.log(e.targetTouches);
+      });
+    }
     $(".wrapper")!.addEventListener("click", (e) => {
+
       let index = Array.from($$(".wrapper li")).indexOf(e.target as Element);
       listStyle(index);
       if (photo.current) {
         photo.current.src = urlMap.get(String(index)) as string;
       }
     });
-    let n = -1;
-    setInterval(() => {
-      if(n===4){n=0}
-      n += 1;
-      listStyle(n);
-      photo.current!.src = urlMap.get(String(n)) as string;
-    }, 3000);
+    // let n = -1;
+    // setInterval(() => {
+    //   n += 1;
+    //   listStyle(n);
+    //   photo.current!.src = urlMap.get(String(n)) as string;
+    // }, 3000);
   }, []);
 
   return (
     <>
-      <Container>
+      <Container ref={content}>
         <img src='assets/1.jpg' alt="" ref={photo}/>
-        <ol ref={content} className='wrapper'>
+        <ol  className='wrapper'>
           <li id='1' className='active'/>
           <li id='2'/>
           <li id='3'/>
